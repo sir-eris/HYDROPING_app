@@ -10,3 +10,4 @@ import SwiftUI
 
 struct AuthView: View {
     @EnvironmentObject var session: SessionManager
+    @State private var isSignUp = false
