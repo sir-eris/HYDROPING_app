@@ -14,3 +14,5 @@ struct AuthView: View {
 
     var body: some View {
         ZStack{
+            FloatingBackgroundCircles()
+            
