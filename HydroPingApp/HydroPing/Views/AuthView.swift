@@ -12,3 +12,4 @@ struct AuthView: View {
     @EnvironmentObject var session: SessionManager
     @State private var isSignUp = false
 
+    var body: some View {
