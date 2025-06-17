@@ -17,3 +17,4 @@ struct AuthView: View {
             FloatingBackgroundCircles()
             
             VStack {
+//                Text("HydroPing")
