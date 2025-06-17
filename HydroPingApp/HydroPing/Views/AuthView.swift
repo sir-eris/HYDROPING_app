@@ -9,3 +9,4 @@ import SwiftUI
 
 
 struct AuthView: View {
+    @EnvironmentObject var session: SessionManager
