@@ -16,3 +16,4 @@ struct AuthView: View {
         ZStack{
             FloatingBackgroundCircles()
             
+            VStack {
