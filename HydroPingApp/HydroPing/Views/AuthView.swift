@@ -8,3 +8,4 @@
 import SwiftUI
 
 
+struct AuthView: View {
