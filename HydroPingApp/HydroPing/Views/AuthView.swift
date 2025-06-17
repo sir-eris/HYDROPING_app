@@ -13,3 +13,4 @@ struct AuthView: View {
     @State private var isSignUp = false
 
     var body: some View {
+        ZStack{
