@@ -22,3 +22,4 @@ struct AuthView: View {
 //                    .overlay(
 //                        Text("HydroPing")
 //                            .font(.system(size: 48, weight: .heavy))
+//                            .foregroundStyle(Color(hex: "#010821"))
