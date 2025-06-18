@@ -19,3 +19,4 @@ struct AuthView: View {
             VStack {
 //                Text("HydroPing")
 //                    .font(.system(size: 48, weight: .heavy))
+//                    .overlay(
