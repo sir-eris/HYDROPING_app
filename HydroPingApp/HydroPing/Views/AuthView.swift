@@ -21,3 +21,4 @@ struct AuthView: View {
 //                    .font(.system(size: 48, weight: .heavy))
 //                    .overlay(
 //                        Text("HydroPing")
+//                            .font(.system(size: 48, weight: .heavy))
