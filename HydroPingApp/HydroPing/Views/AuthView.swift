@@ -23,3 +23,5 @@ struct AuthView: View {
 //                        Text("HydroPing")
 //                            .font(.system(size: 48, weight: .heavy))
 //                            .foregroundStyle(Color(hex: "#010821"))
+//                            .blendMode(.screen)
+//                    )
