@@ -31,3 +31,5 @@ struct AuthView: View {
                 Image("logo-text")
                     .resizable()
                     .scaledToFit()
+//                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 300)
