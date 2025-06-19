@@ -33,3 +33,4 @@ struct AuthView: View {
                     .scaledToFit()
 //                    .aspectRatio(contentMode: .fill)
                     .frame(width: 300)
+                    .frame(height: 100)
