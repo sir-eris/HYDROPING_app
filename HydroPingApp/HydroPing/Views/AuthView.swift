@@ -29,3 +29,4 @@ struct AuthView: View {
 //                    .shadow(color: .gray.opacity(0.5), radius: 2, x: 1, y: 1)
                 
                 Image("logo-text")
+                    .resizable()
