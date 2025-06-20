@@ -39,3 +39,4 @@ struct AuthView: View {
                 Spacer()
                 
                 AuthButtonsUI()
+                    .padding(.horizontal)
