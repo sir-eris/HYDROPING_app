@@ -25,3 +25,4 @@ struct AuthView: View {
 //                            .foregroundStyle(Color(hex: "#010821"))
 //                            .blendMode(.screen)
 //                    )
+//                    .shadow(color: .white.opacity(0.2), radius: 1, x: -1, y: -1)
