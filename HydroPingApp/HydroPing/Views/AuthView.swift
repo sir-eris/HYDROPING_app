@@ -37,3 +37,4 @@ struct AuthView: View {
 //                    .clipped()
                 
                 Spacer()
+                
