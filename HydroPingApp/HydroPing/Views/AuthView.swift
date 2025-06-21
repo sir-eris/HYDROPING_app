@@ -30,3 +30,4 @@ struct AuthView: View {
                 
                 Image("logo-text")
                     .resizable()
+                    .scaledToFit()
