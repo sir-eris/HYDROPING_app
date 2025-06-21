@@ -35,3 +35,4 @@ struct AuthView: View {
                     .frame(width: 300)
                     .frame(height: 100)
 //                    .clipped()
+                
