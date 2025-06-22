@@ -44,3 +44,4 @@ struct AuthView: View {
                 Link(destination: URL(string: "https://hydroping.com")!) {
                     Text("Visit HydroPing.com")
                         .font(.caption)
+                        .fontWeight(.regular)
