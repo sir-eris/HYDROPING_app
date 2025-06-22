@@ -36,3 +36,4 @@ struct AuthView: View {
                     .frame(height: 100)
 //                    .clipped()
                 
+                Spacer()
