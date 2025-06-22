@@ -48,3 +48,4 @@ struct AuthView: View {
                         .foregroundStyle(.gray)
                         .underline()
                 }
+            }
