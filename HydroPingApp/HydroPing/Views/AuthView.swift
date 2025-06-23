@@ -38,3 +38,4 @@ struct AuthView: View {
                 
                 Spacer()
                 
+                AuthButtonsUI()
