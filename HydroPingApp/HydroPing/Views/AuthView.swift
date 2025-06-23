@@ -40,3 +40,5 @@ struct AuthView: View {
                 
                 AuthButtonsUI()
                     .padding(.horizontal)
+                
+                Link(destination: URL(string: "https://hydroping.com")!) {
