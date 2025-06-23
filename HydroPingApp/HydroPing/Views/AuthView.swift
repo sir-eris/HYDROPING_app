@@ -42,3 +42,4 @@ struct AuthView: View {
                     .padding(.horizontal)
                 
                 Link(destination: URL(string: "https://hydroping.com")!) {
+                    Text("Visit HydroPing.com")
