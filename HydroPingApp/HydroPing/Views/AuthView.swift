@@ -59,3 +59,4 @@ struct FloatingBackgroundCircles: View {
     @State private var animate1 = false
     @State private var animate2 = false
 
+    var body: some View {
