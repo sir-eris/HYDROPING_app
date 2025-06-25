@@ -60,3 +60,4 @@ struct FloatingBackgroundCircles: View {
     @State private var animate2 = false
 
     var body: some View {
+        GeometryReader { geometry in
