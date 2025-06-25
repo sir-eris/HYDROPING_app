@@ -49,3 +49,5 @@ struct AuthView: View {
                         .underline()
                 }
             }
+            .padding(.top)
+        }
