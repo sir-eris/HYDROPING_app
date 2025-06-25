@@ -45,3 +45,4 @@ struct AuthView: View {
                     Text("Visit HydroPing.com")
                         .font(.caption)
                         .fontWeight(.regular)
+                        .foregroundStyle(.gray)
