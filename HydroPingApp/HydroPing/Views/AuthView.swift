@@ -47,3 +47,4 @@ struct AuthView: View {
                         .fontWeight(.regular)
                         .foregroundStyle(.gray)
                         .underline()
+                }
