@@ -69,3 +69,4 @@ struct FloatingBackgroundCircles: View {
                             .strokeBorder(Color.white.opacity(0.4), lineWidth: 6)
                     )
                     .background(
+                        Circle()
