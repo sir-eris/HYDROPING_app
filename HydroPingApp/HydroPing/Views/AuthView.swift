@@ -57,3 +57,5 @@ struct AuthView: View {
 
 struct FloatingBackgroundCircles: View {
     @State private var animate1 = false
+    @State private var animate2 = false
+
