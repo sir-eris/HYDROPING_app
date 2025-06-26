@@ -55,3 +55,4 @@ struct AuthView: View {
     
 }
 
+struct FloatingBackgroundCircles: View {
