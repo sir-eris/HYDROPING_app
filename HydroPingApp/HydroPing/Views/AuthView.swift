@@ -62,3 +62,4 @@ struct FloatingBackgroundCircles: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                Circle()
