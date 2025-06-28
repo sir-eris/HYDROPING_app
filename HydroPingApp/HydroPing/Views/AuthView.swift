@@ -64,3 +64,4 @@ struct FloatingBackgroundCircles: View {
             ZStack {
                 Circle()
                     .fill(Color(hex: "#64c896").opacity(0.8))
+                    .overlay(
