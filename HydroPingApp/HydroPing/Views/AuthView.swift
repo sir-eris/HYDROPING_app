@@ -81,3 +81,4 @@ struct FloatingBackgroundCircles: View {
                 
                 Circle()
                     .fill(Color(hex: "#81dff9").opacity(0.8))
+                    .overlay(
