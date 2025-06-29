@@ -74,3 +74,4 @@ struct FloatingBackgroundCircles: View {
                     )
                     .frame(width: 350, height: 350)
                     .offset(
+                        x: animate2 ? -100 : 100,
