@@ -80,3 +80,4 @@ struct FloatingBackgroundCircles: View {
                     .animation(.easeInOut(duration: 10).repeatForever(autoreverses: true), value: animate1)
                 
                 Circle()
+                    .fill(Color(hex: "#81dff9").opacity(0.8))
