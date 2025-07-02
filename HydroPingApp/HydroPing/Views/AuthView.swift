@@ -95,3 +95,4 @@ struct FloatingBackgroundCircles: View {
                         y: animate2 ? -250 : -300
                     )
                     .animation(.easeInOut(duration: 14).repeatForever(autoreverses: true), value: animate2)
+            }
