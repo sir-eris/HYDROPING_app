@@ -100,3 +100,4 @@ struct FloatingBackgroundCircles: View {
         }
         .ignoresSafeArea()
         .allowsHitTesting(false)
+        .onAppear {
