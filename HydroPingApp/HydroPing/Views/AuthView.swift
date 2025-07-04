@@ -88,3 +88,4 @@ struct FloatingBackgroundCircles: View {
                     .background(
                         Circle()
                             .fill(Color.white.opacity(0.05))
+                    )
