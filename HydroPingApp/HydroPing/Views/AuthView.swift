@@ -109,3 +109,5 @@ struct FloatingBackgroundCircles: View {
 
 
 #Preview {
+    AuthView().environmentObject(SessionManager())
+}
