@@ -90,3 +90,4 @@ struct FloatingBackgroundCircles: View {
                             .fill(Color.white.opacity(0.05))
                     )
                     .frame(width: 450, height: 450)
+                    .offset(
