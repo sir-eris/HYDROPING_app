@@ -96,3 +96,4 @@ struct FloatingBackgroundCircles: View {
                     )
                     .animation(.easeInOut(duration: 14).repeatForever(autoreverses: true), value: animate2)
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
