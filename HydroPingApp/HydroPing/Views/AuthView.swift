@@ -101,3 +101,5 @@ struct FloatingBackgroundCircles: View {
         .ignoresSafeArea()
         .allowsHitTesting(false)
         .onAppear {
+            animate1 = true
+            animate2 = true
