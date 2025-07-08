@@ -103,3 +103,4 @@ struct FloatingBackgroundCircles: View {
         .onAppear {
             animate1 = true
             animate2 = true
+        }
