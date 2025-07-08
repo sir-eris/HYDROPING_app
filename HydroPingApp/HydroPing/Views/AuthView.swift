@@ -105,3 +105,4 @@ struct FloatingBackgroundCircles: View {
             animate2 = true
         }
     }
+}
