@@ -1,0 +1,708 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		603999C92E2CC41700C1104E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 603999C82E2CC41700C1104E /* FirebaseAnalytics */; };
+		603999CB2E2CC41700C1104E /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 603999CA2E2CC41700C1104E /* FirebaseAppCheck */; };
+		603999CD2E2CC41700C1104E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 603999CC2E2CC41700C1104E /* FirebaseAuth */; };
+		603999CF2E2CC41700C1104E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 603999CE2E2CC41700C1104E /* FirebaseCrashlytics */; };
+		603999D22E2CC42D00C1104E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 603999D12E2CC42D00C1104E /* GoogleSignIn */; };
+		603999D42E2CC42D00C1104E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 603999D32E2CC42D00C1104E /* GoogleSignInSwift */; };
+		603999D62E3352DE00C1104E /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 60D5FBAA2E15C0E60043E939 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		60D5FBAB2E15C0E60043E939 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60D5FB862E15BD9A0043E939 /* WidgetKit.framework */; };
+		60D5FBAC2E15C0E60043E939 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60D5FB882E15BD9A0043E939 /* SwiftUI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		60E9408D2E339D76005FCC86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60D5FB332E13B6AE0043E939 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60D5FBA92E15C0E60043E939;
+			remoteInfo = widgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		603999D92E3352DE00C1104E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				603999D62E3352DE00C1104E /* widgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60DFBA612E4871AF00D8B4BF /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		60D5FB3B2E13B6AE0043E939 /* HydroPing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HydroPing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		60D5FB862E15BD9A0043E939 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		60D5FB882E15BD9A0043E939 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		60D5FBAA2E15C0E60043E939 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		60D5FBBB2E15C0E70043E939 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 60D5FBA92E15C0E60043E939 /* widgetExtension */;
+		};
+		60D5FBC52E15C8370043E939 /* Exceptions for "HydroPing" folder in "widgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Helpers/Device.swift,
+				Helpers/UIHelper.swift,
+				Managers/KeychainManager.swift,
+			);
+			target = 60D5FBA92E15C0E60043E939 /* widgetExtension */;
+		};
+		60E29E1B2E20C270006187CE /* Exceptions for "HydroPing" folder in "HydroPing" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 60D5FB3A2E13B6AE0043E939 /* HydroPing */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		60D5FB3D2E13B6AE0043E939 /* HydroPing */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				60E29E1B2E20C270006187CE /* Exceptions for "HydroPing" folder in "HydroPing" target */,
+				60D5FBC52E15C8370043E939 /* Exceptions for "HydroPing" folder in "widgetExtension" target */,
+			);
+			path = HydroPing;
+			sourceTree = "<group>";
+		};
+		60D5FBAD2E15C0E60043E939 /* widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				60D5FBBB2E15C0E70043E939 /* Exceptions for "widget" folder in "widgetExtension" target */,
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		60D5FB382E13B6AE0043E939 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				603999D22E2CC42D00C1104E /* GoogleSignIn in Frameworks */,
+				603999CB2E2CC41700C1104E /* FirebaseAppCheck in Frameworks */,
+				603999CF2E2CC41700C1104E /* FirebaseCrashlytics in Frameworks */,
+				603999D42E2CC42D00C1104E /* GoogleSignInSwift in Frameworks */,
+				603999CD2E2CC41700C1104E /* FirebaseAuth in Frameworks */,
+				603999C92E2CC41700C1104E /* FirebaseAnalytics in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60D5FBA72E15C0E60043E939 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60D5FBAC2E15C0E60043E939 /* SwiftUI.framework in Frameworks */,
+				60D5FBAB2E15C0E60043E939 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		60D5FB322E13B6AE0043E939 = {
+			isa = PBXGroup;
+			children = (
+				60D5FB3D2E13B6AE0043E939 /* HydroPing */,
+				60D5FBAD2E15C0E60043E939 /* widget */,
+				60D5FB852E15BD9A0043E939 /* Frameworks */,
+				60D5FB3C2E13B6AE0043E939 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		60D5FB3C2E13B6AE0043E939 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				60D5FB3B2E13B6AE0043E939 /* HydroPing.app */,
+				60D5FBAA2E15C0E60043E939 /* widgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		60D5FB852E15BD9A0043E939 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				60D5FB862E15BD9A0043E939 /* WidgetKit.framework */,
+				60D5FB882E15BD9A0043E939 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		60D5FB3A2E13B6AE0043E939 /* HydroPing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60D5FB5F2E13B6AF0043E939 /* Build configuration list for PBXNativeTarget "HydroPing" */;
+			buildPhases = (
+				60D5FB372E13B6AE0043E939 /* Sources */,
+				60D5FB382E13B6AE0043E939 /* Frameworks */,
+				60D5FB392E13B6AE0043E939 /* Resources */,
+				603999D92E3352DE00C1104E /* Embed Foundation Extensions */,
+				60DFBA612E4871AF00D8B4BF /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60E9408E2E339D76005FCC86 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				60D5FB3D2E13B6AE0043E939 /* HydroPing */,
+			);
+			name = HydroPing;
+			packageProductDependencies = (
+				603999C82E2CC41700C1104E /* FirebaseAnalytics */,
+				603999CA2E2CC41700C1104E /* FirebaseAppCheck */,
+				603999CC2E2CC41700C1104E /* FirebaseAuth */,
+				603999CE2E2CC41700C1104E /* FirebaseCrashlytics */,
+				603999D12E2CC42D00C1104E /* GoogleSignIn */,
+				603999D32E2CC42D00C1104E /* GoogleSignInSwift */,
+			);
+			productName = Probe;
+			productReference = 60D5FB3B2E13B6AE0043E939 /* HydroPing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		60D5FBA92E15C0E60043E939 /* widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60D5FBB82E15C0E70043E939 /* Build configuration list for PBXNativeTarget "widgetExtension" */;
+			buildPhases = (
+				60D5FBA62E15C0E60043E939 /* Sources */,
+				60D5FBA72E15C0E60043E939 /* Frameworks */,
+				60D5FBA82E15C0E60043E939 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				60D5FBAD2E15C0E60043E939 /* widget */,
+			);
+			name = widgetExtension;
+			packageProductDependencies = (
+			);
+			productName = widgetExtension;
+			productReference = 60D5FBAA2E15C0E60043E939 /* widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		60D5FB332E13B6AE0043E939 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					60D5FB3A2E13B6AE0043E939 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					60D5FBA92E15C0E60043E939 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+				};
+			};
+			buildConfigurationList = 60D5FB362E13B6AE0043E939 /* Build configuration list for PBXProject "HydroPing" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 60D5FB322E13B6AE0043E939;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				603999D02E2CC42D00C1104E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 60D5FB3C2E13B6AE0043E939 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				60D5FB3A2E13B6AE0043E939 /* HydroPing */,
+				60D5FBA92E15C0E60043E939 /* widgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		60D5FB392E13B6AE0043E939 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60D5FBA82E15C0E60043E939 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		60D5FB372E13B6AE0043E939 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60D5FBA62E15C0E60043E939 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		60E9408E2E339D76005FCC86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60D5FBA92E15C0E60043E939 /* widgetExtension */;
+			targetProxy = 60E9408D2E339D76005FCC86 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		60D5FB5D2E13B6AF0043E939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		60D5FB5E2E13B6AF0043E939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		60D5FB602E13B6AF0043E939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = HydroPing/HydroPing.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HydroPing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HydroPing;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to Wi-Fi name to connect your device";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.erisverne.hydroping;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		60D5FB612E13B6AF0043E939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = HydroPing/HydroPing.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HydroPing/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HydroPing;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need access to Wi-Fi name to connect your device";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 2.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.erisverne.hydroping;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+		60D5FBB92E15C0E70043E939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.erisverne.hydroping.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		60D5FBBA2E15C0E70043E939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = M673G6VLXY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We need to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationTemporaryUsageDescriptionDictionary = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationUsageDescription = "We need location to detect nearby Wi-Fi";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need location to detect nearby Wi-Fi";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.erisverne.hydroping.Widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		60D5FB362E13B6AE0043E939 /* Build configuration list for PBXProject "HydroPing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60D5FB5D2E13B6AF0043E939 /* Debug */,
+				60D5FB5E2E13B6AF0043E939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60D5FB5F2E13B6AF0043E939 /* Build configuration list for PBXNativeTarget "HydroPing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60D5FB602E13B6AF0043E939 /* Debug */,
+				60D5FB612E13B6AF0043E939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60D5FBB82E15C0E70043E939 /* Build configuration list for PBXNativeTarget "widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60D5FBB92E15C0E70043E939 /* Debug */,
+				60D5FBBA2E15C0E70043E939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+		603999D02E2CC42D00C1104E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		603999C82E2CC41700C1104E /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		603999CA2E2CC41700C1104E /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		603999CC2E2CC41700C1104E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		603999CE2E2CC41700C1104E /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999C72E2CC41700C1104E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		603999D12E2CC42D00C1104E /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999D02E2CC42D00C1104E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		603999D32E2CC42D00C1104E /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 603999D02E2CC42D00C1104E /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 60D5FB332E13B6AE0043E939 /* Project object */;
+}
