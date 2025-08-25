@@ -321,7 +321,7 @@ struct DeviceInfoModal: View {
                                     Divider()
                                     
                                     VStack(spacing: 0) {
-                                        if device.nextWaterTime != nil {
+                                        if let nextWater = device.nextWaterTime, !nextWater.isEmpty {
                                             if device.status == .new {
                                                 VStack {
                                                     HStack(spacing:4) {
@@ -353,7 +353,7 @@ struct DeviceInfoModal: View {
                                                         .fontWeight(.semibold)
                                                         .foregroundStyle(.gray)
                                                 }
-                                            } else if device.nextWaterTime == "today" {
+                                            } else if nextWater == "today" {
                                                 VStack(spacing: 0) {
                                                     HStack(spacing: 4) {
                                                         Text("Water")
@@ -407,8 +407,8 @@ struct DeviceInfoModal: View {
                                                             }
                                                         }
                                                     }
-
-                                                    Text("\(device.nextWaterTime ?? "") day\(device.nextWaterTime == "1" ? "" : "s")")
+                                                    
+                                                    Text("\(nextWater) day\(nextWater == "1" ? "" : "s")")
                                                         .fontWeight(.bold)
                                                         .font(.largeTitle)
                                                         .foregroundStyle(color)
@@ -817,7 +817,7 @@ struct HistoryChart: View {
     let readings: [MoistureReading]
     let deviceStatus: DeviceStatus?
     
-    let duration: Double = 8
+    let duration: Double = 6
     let pulseCount = 2
     
     let hourFormatter: DateFormatter = {

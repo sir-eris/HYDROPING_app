@@ -17,79 +17,91 @@ struct AuthButtonsUI: View {
     @EnvironmentObject var session: SessionManager
 
     @State private var isLoading = false
+    @State private var showAccountDeletedAlert = false
 
     var body: some View {
         VStack(spacing: 30) {
             if isLoading == true {
                 ProgressView()
             } else {
-                VStack(spacing: 12) {
-                    SignInWithAppleButton(
-                        .signIn,
-                        onRequest: { request in
-                            request.requestedScopes = [.fullName, .email]
-                        },
-                        onCompletion: { result in
-                            isLoading = true
-                            
-                            switch result {
-                            case .success(let authResults):
-                                if let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential {
-                                    Task {
-                                        await handleAppleSignIn(credential: appleIDCredential)
-                                        
-                                        DispatchQueue.main.async {
-                                            isLoading = false
+                ZStack {
+                    VStack(spacing: 12) {
+                        SignInWithAppleButton(
+                            .signIn,
+                            onRequest: { request in
+                                request.requestedScopes = [.fullName, .email]
+                            },
+                            onCompletion: { result in
+                                isLoading = true
+                                
+                                switch result {
+                                case .success(let authResults):
+                                    if let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential {
+                                        Task {
+                                            await handleAppleSignIn(credential: appleIDCredential)
+                                            
+                                            DispatchQueue.main.async {
+                                                isLoading = false
+                                            }
                                         }
+                                    } else {
+                                        isLoading = false
                                     }
-                                } else {
+                                case .failure(_):
+                                    // print("Authorization failed: \(error.localizedDescription)")
+                                    isLoading = false
+                                    //                                break
+                                }
+                            }
+                        )
+                        .signInWithAppleButtonStyle(.black)
+                        .frame(height: 50)
+                        .cornerRadius(24)
+                        
+                        
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                isLoading = true
+                            }
+                            signInWithGoogle {
+                                DispatchQueue.main.async {
                                     isLoading = false
                                 }
-                            case .failure(_):
-                                // print("Authorization failed: \(error.localizedDescription)")
-                                isLoading = false
-//                                break
+                            }
+                        }) {
+                            HStack {
+                                Image("google_logo")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .aspectRatio(contentMode: .fit)
+                                Text("Sign in with Google")
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 19))
                             }
                         }
-                    )
-                    .signInWithAppleButtonStyle(.black)
-                    .frame(height: 50)
-                    .cornerRadius(24)
-                    
-                    
-                    Button(action: {
-                        DispatchQueue.main.async {
-                            isLoading = true
-                        }
-                        signInWithGoogle {
-                            DispatchQueue.main.async {
-                                isLoading = false
-                            }
-                        }
-                    }) {
-                        HStack {
-                            Image("google_logo")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .aspectRatio(contentMode: .fit)
-                            Text("Sign in with Google")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                        }
+                        .frame(maxWidth: .infinity, minHeight: 45)
+                        .cornerRadius(24)
+                        .foregroundColor(.black)
+                        .background(Color.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(style: StrokeStyle(lineWidth: 0.5))
+                        )
+                        //                    .disabled(isLoading)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 45)
-                    .cornerRadius(24)
-                    .foregroundColor(.black)
-                    .background(Color.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 24)
-                            .stroke(style: StrokeStyle(lineWidth: 0.5))
-                    )
-//                    .disabled(isLoading)
                 }
             }
         }
         .padding()
+        .alert("Account Deleted", isPresented: $showAccountDeletedAlert) {
+            Button("Continue") {
+                // start new account flow
+                showAccountDeletedAlert = false
+            }
+            Button("Cancel", role: .cancel) { showAccountDeletedAlert = false}
+        } message: {
+            Text("Your account was deleted. Tap continue, and retry sign-in for a new account to be created.")
+        }
     }
     
     func handleAppleSignIn(credential: ASAuthorizationAppleIDCredential) async {
@@ -133,6 +145,17 @@ struct AuthButtonsUI: View {
                 //                print("Network error:", error)
                 return
             }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 410 {
+//                    print("Account deleted (410 Gone)")
+                    DispatchQueue.main.async { showAccountDeletedAlert = true }
+                    return
+                }
+            }
+//            if let data = data, let bodyString = String(data: data, encoding: .utf8) {
+//                print("Response body: \(bodyString)")
+//            }
             
             guard let data = data else {
                 //                print("No data received")
@@ -253,6 +276,16 @@ struct AuthButtonsUI: View {
 //                                    print("Network error:", error)
                                     completion()
                                     return
+                                }
+                                
+                                if let httpResponse = response as? HTTPURLResponse {
+//                                    print(httpResponse.statusCode)
+                                    if httpResponse.statusCode == 410 {
+//                                        print("Account deleted (410 Gone)")
+                                        DispatchQueue.main.async { showAccountDeletedAlert = true }
+                                        completion()
+                                        return
+                                    }
                                 }
                                 
                                 guard let data = data else {

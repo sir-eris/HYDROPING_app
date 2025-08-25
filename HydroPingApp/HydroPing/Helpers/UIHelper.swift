@@ -349,3 +349,51 @@ func decodeMAC(_ encoded: String) -> String? {
 //                                    }
 //                                }
 //                            }
+
+
+// custome algorithm to generate a profile pic from user's email, that's reversible,
+// using color mapping and radial wedge gradient within each path
+struct EmailAvatar: View {
+    let email: String
+        let width: CGFloat
+        let height: CGFloat
+        let rows: Int = 5
+        let cols: Int = 7
+
+    var body: some View {
+        // Harmonious color palette
+        let colors: [Color] = [
+                    Color(red: 0.9, green: 0.3, blue: 0.2), // red
+                    Color(red: 0.2, green: 0.6, blue: 0.9), // blue
+                    Color(red: 0.2, green: 0.8, blue: 0.4), // green
+                    Color(red: 1.0, green: 0.6, blue: 0.2), // orange
+                    Color(red: 0.6, green: 0.3, blue: 0.9)  // purple
+                ]
+        let values = Array(email.utf8)
+        let totalCells = rows * cols
+        let paddedValues = (0..<totalCells).map { values[$0 % values.count] }
+        
+        VStack(spacing: 0) {
+            ForEach(0..<rows, id: \.self) { row in
+                HStack(spacing: 0) {
+                    ForEach(0..<cols, id: \.self) { col in
+                        let index = row * cols + col
+                        let value = Int(paddedValues[index])
+                        let color = colors[value % colors.count]
+                        
+                        // Denser fill: more cells active
+                        let fill = value % 3 != 0
+                        
+                        Rectangle()
+                            .fill(fill ? color : Color.white)
+                            .frame(width: width / CGFloat(cols),
+                                   height: height / CGFloat(rows))
+                    }
+                }
+            }
+        }
+        .frame(width: width, height: height)
+    }
+}
+
+

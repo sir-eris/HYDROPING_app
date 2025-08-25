@@ -9,13 +9,12 @@ import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject var session: SessionManager
-    @State private var devices: [Device] = sampleDevices
-//    @State private var devices: [Device] = []
+//    @State private var devices: [Device] = sampleDevices
+    @State private var devices: [Device] = []
     @State private var selectedDevice: Device?
     @State private var selectedDeviceIndex: Int? = nil
     @State private var isLoading = false
     @State private var isLoadingDeviceFetch = false
-    @State private var showHowToUse = false
     @State private var currentPage = 0
     
     let columns = [
@@ -64,9 +63,9 @@ struct HomeView: View {
                     }
                 }
                 .refreshable {
-                    //                    isLoadingDeviceFetch = true
+//                    isLoadingDeviceFetch = true
                     await fetchDevices()
-                    //                    isLoadingDeviceFetch = false
+//                    isLoadingDeviceFetch = false
                 }
                 Text("Pull to refresh")
                     .font(.subheadline)
@@ -100,31 +99,13 @@ struct HomeView: View {
                             
                             Image(systemName: "plus")
                                 .foregroundColor(.primary)
-                                .font(.system(size: 18, weight: .semibold))
+                                .font(.system(size: 16, weight: .regular))
                         }
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Link(destination: URL(string: "https://hydroping.com/pages/apple-app-widget-extension-installation-walkthrough")!) {
-                            Label("Add App Widget", systemImage: "rectangle.stack")
-                        }
-                        Button {
-                            showHowToUse = true
-                        } label: {
-                            Label("In Depth Guide", systemImage: "questionmark.circle")
-                        }
-                        Link(destination: URL(string: "https://hydroping.com/collections/all")!) {
-                            Label("Buy more Probes", systemImage: "cart")
-                        }
-                        Button(role: .destructive) {
-                            session.signOut()
-                        } label: {
-                            Label("Logout - \(session.email ?? "")", systemImage: "rectangle.portrait.and.arrow.right")
-                                .font(.caption)
-                        }
-                    } label: {
+                    NavigationLink(destination: ProfileView()) {
                         ZStack {
                             Circle()
                                 .fill(.ultraThinMaterial)
@@ -141,16 +122,12 @@ struct HomeView: View {
                                 .shadow(color: Color.white.opacity(0.2), radius: 1, x: -1, y: -1)
                                 .shadow(color: Color.black.opacity(0.1), radius: 2, x: 1, y: 1)
                             
-                            Image(systemName: "ellipsis")
-                                .font(.system(size: 16, weight: .medium))
+                            Image(systemName: "person")
                                 .foregroundColor(.primary)
+                                .font(.system(size: 16, weight: .regular))
                         }
                     }
-                    .menuStyle(.automatic)
                 }
-            }
-            .navigationDestination(isPresented: $showHowToUse) {
-                HowToUseView()
             }
         }
         .sheet(isPresented: Binding<Bool>(
@@ -220,6 +197,15 @@ struct HomeView: View {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
+            if let httpResponse = response as? HTTPURLResponse {
+//                print(httpResponse.statusCode)
+                if httpResponse.statusCode == 410 {
+//                    print("Account deleted (410 Gone)")
+                    DispatchQueue.main.async { session.signOut() }
+                    return
+                }
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
 //                print("Server error or invalid response")
@@ -229,6 +215,8 @@ struct HomeView: View {
 //                if let jsonString = String(data: data, encoding: .utf8) {
 //                    print("Response: \(jsonString)")
 //                }
+                
+                isLoading = false
                 return
             }
             
@@ -306,6 +294,15 @@ struct HomeView: View {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
+            if let httpResponse = response as? HTTPURLResponse {
+//                print(httpResponse.statusCode)
+                if httpResponse.statusCode == 410 {
+//                    print("Account deleted (410 Gone)")
+                    DispatchQueue.main.async { session.signOut() }
+                    return
+                }
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
 //                print("Server error or invalid response")
@@ -316,7 +313,6 @@ struct HomeView: View {
 //                    print("Response: \(jsonString)")
 //                }
                 isLoading = false
-//                session.signOut()
                 return
             }
             
@@ -388,6 +384,16 @@ struct HomeView: View {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
+                if httpResponse.statusCode == 410 {
+//                    print("Account deleted (410 Gone)")
+//                TODO: elaborate more
+                    DispatchQueue.main.async { session.signOut() }
+                    return
+                }
+            }
+            
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode) else {
 //                print("Server error or invalid response")
@@ -415,79 +421,6 @@ struct HomeView: View {
         
         isLoading = false
     }
-
-
-//    func disconnectDevice() async {
-//        isLoading = true
-//        
-//        guard let index = selectedDeviceIndex, index < devices.count else {
-//            isLoading = false
-//            return
-//        }
-//        let deviceId = devices[index].deviceId
-//        guard let jwtToken = session.token else {
-////            print( "Invalid token")
-//            isLoading = false
-//            session.signOut()
-//            return
-//        }
-//        guard let _ = session.userId else {
-//            // print("Invalid userId")
-//            isLoading = false
-//            session.signOut()
-//            return
-//        }
-//                
-//        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/disconnectProbe") else {
-//            // print("Invalid URL")
-//            isLoading = false
-//            return
-//        }
-//
-//        let body: [String: String] = ["deviceId": deviceId]
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-//        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-//        
-//
-//        do {
-//            let (data, response) = try await URLSession.shared.data(for: request)
-//            
-//            guard let httpResponse = response as? HTTPURLResponse,
-//                  (200..<300).contains(httpResponse.statusCode) else {
-////                print("Server error or invalid response")
-////                if let httpResponse = response as? HTTPURLResponse {
-////                    print("Status: \(httpResponse.statusCode)")
-////                }
-////                if let jsonString = String(data: data, encoding: .utf8) {
-////                    print("Response: \(jsonString)")
-////                }
-//                isLoading = false
-//                return
-//            }
-//            
-//            if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-//               let newToken = jsonObject["newToken"] as? String {
-//                
-//                session.renewToken(token: newToken)
-//            }
-//            
-//            await MainActor.run {
-//                selectedDeviceIndex = nil
-//                devices.removeAll { $0.deviceId == deviceId }
-//                isLoading = false
-//                WidgetCenter.shared.reloadAllTimelines()
-//            }
-//            
-//        } catch {
-////            print("Failed to update device info: \(error.localizedDescription)")
-//        }
-//        
-//        isLoading = false
-//        selectedDeviceIndex = nil
-//    }
 }
 
 #Preview {
