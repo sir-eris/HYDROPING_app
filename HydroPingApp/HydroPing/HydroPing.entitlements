@@ -7,13 +7,13 @@
 		<string>group.com.erisverne.hydroping</string>
 	</array>
 	<key>aps-environment</key>
-	<string>production</string>
+	<string>development</string>
 	<key>com.apple.developer.applesignin</key>
 	<array>
 		<string>Default</string>
 	</array>
 	<key>com.apple.developer.devicecheck.appattest-environment</key>
-	<string>production</string>
+	<string>development</string>
 	<key>com.apple.developer.networking.wifi-info</key>
 	<true/>
 	<key>com.apple.security.files.user-selected.read-only</key>
