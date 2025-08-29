@@ -32,7 +32,7 @@ class NotificationManager: NSObject, ObservableObject {
     func registerDeviceToken(_ token: Data) {
         let tokenParts = token.map { String(format: "%02.2hhx", $0) }
         self.deviceToken = tokenParts.joined()
-//        print("Device Token: \(self.deviceToken!)")
+        print("Device Token: \(self.deviceToken!)")
     }
     
     func clearAll() {

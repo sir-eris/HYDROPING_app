@@ -46,9 +46,8 @@ struct AuthButtonsUI: View {
                                     isLoading = false
                                 }
                             case .failure(_):
-                                // print("Authorization failed: \(error.localizedDescription)")
                                 isLoading = false
-//                                break
+                                break
                             }
                         }
                     )
@@ -95,7 +94,6 @@ struct AuthButtonsUI: View {
     func handleAppleSignIn(credential: ASAuthorizationAppleIDCredential) async {
         guard let tokenData = credential.identityToken,
               let identityToken = String(data: tokenData, encoding: .utf8) else {
-            //            print("Failed to get identity token")
             return
         }
         
@@ -113,7 +111,6 @@ struct AuthButtonsUI: View {
         ]
         
         guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/appleSignIn") else {
-            //            print("Invalid URL")
             return
         }
         
@@ -124,24 +121,21 @@ struct AuthButtonsUI: View {
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
         } catch {
-            //            print("JSON serialization error:", error)
+//            print("JSON serialization error:", error)
             return
         }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
-                //                print("Network error:", error)
                 return
             }
             
             guard let data = data else {
-                //                print("No data received")
                 return
             }
             
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                    //                    print("Response JSON:", json)
                     
                     if let token = json["token"] as? String,
                        let user = json["userId"] as? String,
@@ -150,12 +144,11 @@ struct AuthButtonsUI: View {
                             await session.signIn(token: token, userId: user, email: email)
                         }
                     } else if let errorMsg = json["error"] as? String {
-                        //                        print("Backend error:", errorMsg)
                         return
                     }
                 }
             } catch {
-                //                print("JSON parse error:", error)
+//                print("JSON parse error:", error)
             }
         }
         task.resume()
@@ -163,7 +156,6 @@ struct AuthButtonsUI: View {
 
     func signInWithGoogle(completion: @escaping () -> Void) {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
-//            print("Missing clientID")
             completion()
             return
         }
@@ -173,21 +165,18 @@ struct AuthButtonsUI: View {
         guard let presentingVC = UIApplication.shared.connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow?.rootViewController })
             .first else {
-//            print("❌ No rootViewController found")
             completion()
             return
         }
         
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingVC) { result, error in
             if let error = error {
-//                print("Google Sign-In error:", error.localizedDescription)
                 completion()
                 return
             }
 
             guard let user = result?.user,
                   let idToken = user.idToken?.tokenString else {
-//                print("❌ Missing auth tokens")
                 completion()
                 return
             }
@@ -201,20 +190,16 @@ struct AuthButtonsUI: View {
 
             Auth.auth().signIn(with: credential) { authResult, error in
                 if let error = error {
-//                    print("Firebase sign-in failed:", error.localizedDescription)
                     completion()
                     return
                 } else {
-//                    print("✅ Signed in as:", authResult?.user.email ?? "Unknown")
                     guard let user = authResult?.user else {
-//                        print("no user info available on authResult")
                         completion()
                         return
                     }
                     
                     user.getIDToken { idToken, error in
                         if let error = error {
-//                            print("Error fetching ID token:", error)
                             completion()
                             return
                         }
@@ -243,27 +228,23 @@ struct AuthButtonsUI: View {
                             do {
                                 request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
                             } catch {
-//                                print("JSON serialization error:", error)
                                 completion()
                                 return
                             }
                             
                             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                                 if let error = error {
-//                                    print("Network error:", error)
                                     completion()
                                     return
                                 }
                                 
                                 guard let data = data else {
-//                                    print("No data received")
                                     completion()
                                     return
                                 }
                                 
                                 do {
                                     if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-//                                        print("Response JSON:", json)
                                         
                                         if let token = json["token"] as? String,
                                            let user = json["userId"] as? String,
@@ -272,13 +253,12 @@ struct AuthButtonsUI: View {
                                                 await session.signIn(token: token, userId: user, email: email)
                                             }
                                         } else if let errorMsg = json["error"] as? String {
-//                                            print("Backend error:", errorMsg)
+//                                          print("Backend error:", errorMsg)
                                         }
                                         
                                         completion()
                                     }
                                 } catch {
-//                                    print("JSON parse error:", error)
                                     completion()
                                     return
                                 }

@@ -9,8 +9,8 @@ import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject var session: SessionManager
-    @State private var devices: [Device] = sampleDevices
-//    @State private var devices: [Device] = []
+//    @State private var devices: [Device] = sampleDevices
+    @State private var devices: [Device] = []
     @State private var selectedDevice: Device?
     @State private var selectedDeviceIndex: Int? = nil
     @State private var isLoading = false
@@ -189,81 +189,35 @@ struct HomeView: View {
         }
     }
     
-    struct FetchDevicesResponse: Decodable {
-        let newToken: String?
-        let devices: [Device]
-    }
+
     func fetchDevices() async {
         defer { isLoadingDeviceFetch = false }
                 
         guard let jwtToken = session.token else {
             session.signOut()
-//            print( "Invalid token")
             return
         }
 //        print(jwtToken)
         guard let _ = session.userId else {
             session.signOut()
-//            print( "Invalid userId")
             return
         }
-        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/getUserProbes") else {
-//            print( "Invalid URL")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-        
+
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let results = try await APIManager.shared.request(
+                endpoint: .fetchDevices,
+                method: "POST",
+                token: jwtToken
+            )
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-//                print("Server error or invalid response")
-//                if let httpResponse = response as? HTTPURLResponse {
-//                    print("Status: \(httpResponse.statusCode)")
-//                }
-//                if let jsonString = String(data: data, encoding: .utf8) {
-//                    print("Response: \(jsonString)")
-//                }
-                return
-            }
-            
-//            let decoder = JSONDecoder()
-//            decoder.dateDecodingStrategy = .iso8601
-//            let results = try decoder.decode(FetchDevicesResponse.self, from: data)
-            
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .custom { decoder in
-                let container = try decoder.singleValueContainer()
-                let dateStr = try container.decode(String.self)
-
-                let isoFormatter = ISO8601DateFormatter()
-                isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-                if let date = isoFormatter.date(from: dateStr) {
-                    return date
+            if case let .fetchDevices(deviceList) = results {
+                await MainActor.run {
+                    devices = deviceList
                 }
-                throw DecodingError.dataCorruptedError(
-                    in: container,
-                    debugDescription: "Invalid date format: \(dateStr)"
-                )
-            }
-            let results = try decoder.decode(FetchDevicesResponse.self, from: data)
-
-            if let token = results.newToken {
-                session.renewToken(token: token)
-            }
-            
-            await MainActor.run {
-                devices = results.devices
             }
             
         } catch {
-//            print("Failed to fetch devices: \(error)")
+            print("Error:", error)
         }
     }
     
@@ -278,7 +232,6 @@ struct HomeView: View {
         guard let jwtToken = session.token else {
             isLoadingDeviceFetch = false
             session.signOut()
-//            print( "Invalid token")
             return
         }
         guard let _ = session.userId else {
@@ -286,45 +239,18 @@ struct HomeView: View {
             session.signOut()
             return
         }
-        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/updateProbeInfo") else {
-            isLoading = false
-            return
-        }
-
-        let body: [String: Any] = [
-            "deviceId": deviceId,
-            "field": field,
-            "value": value
-        ]
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
+        
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-//                print("Server error or invalid response")
-//                if let httpResponse = response as? HTTPURLResponse {
-//                    print("Status: \(httpResponse.statusCode)")
-//                }
-//                if let jsonString = String(data: data, encoding: .utf8) {
-//                    print("Response: \(jsonString)")
-//                }
-                isLoading = false
-//                session.signOut()
-                return
-            }
-            
-            if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let newToken = jsonObject["newToken"] as? String {
-                
-                session.renewToken(token: newToken)
-            }
+            let _ = try await APIManager.shared.request(
+                endpoint: .updateDevice,
+                method: "POST",
+                payload: [
+                    "deviceId": deviceId,
+                    "field": field,
+                    "value": value
+                ],
+                token: jwtToken
+            )
             
             DispatchQueue.main.async {
                 guard var updated = selectedDevice else {
@@ -339,10 +265,8 @@ struct HomeView: View {
             WidgetCenter.shared.reloadAllTimelines()
             
         } catch {
-//            print("Failed to update device info: \(error.localizedDescription)")
-            isLoading = false
+            print("Error:", error)
         }
-        
         isLoading = false
     }
     
@@ -350,144 +274,37 @@ struct HomeView: View {
         isLoading = true
                 
         guard let index = selectedDeviceIndex, index < devices.count else {
-//            print( "Invalid index")
             isLoading = false
             return
         }
         let deviceId = devices[index].deviceId
         guard let jwtToken = session.token else {
-//            print( "Invalid token")
             isLoadingDeviceFetch = false
             session.signOut()
             return
         }
         guard let _ = session.userId else {
-//            print( "Invalid userId")
             isLoading = false
             session.signOut()
             return
         }
-        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/submitReport") else {
-//            print( "Invalid url")
-            isLoading = false
-            return
-        }
-
-        let body: [String: Any] = [
-            "deviceId": deviceId,
-            "topic": topic,
-            "message": message
-        ]
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-//                print("Server error or invalid response")
-//                if let httpResponse = response as? HTTPURLResponse {
-//                    print("Status: \(httpResponse.statusCode)")
-//                }
-//                if let jsonString = String(data: data, encoding: .utf8) {
-//                    print("Response: \(jsonString)")
-//                }
-                isLoading = false
-                return
-            }
-            
-            if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let newToken = jsonObject["newToken"] as? String {
-                
-                session.renewToken(token: newToken)
-            }
-            
-            isLoading = false
+            let _ = try await APIManager.shared.request(
+                endpoint: .submitReport,
+                method: "POST",
+                payload: [
+                    "deviceId": deviceId,
+                    "topic": topic,
+                    "message": message
+                ],
+                token: jwtToken,
+            )
         } catch {
-//            print("Failed to report issue: \(error.localizedDescription)")
-            isLoading = false
+            print("Error:", error)
         }
-        
         isLoading = false
     }
-
-
-//    func disconnectDevice() async {
-//        isLoading = true
-//        
-//        guard let index = selectedDeviceIndex, index < devices.count else {
-//            isLoading = false
-//            return
-//        }
-//        let deviceId = devices[index].deviceId
-//        guard let jwtToken = session.token else {
-////            print( "Invalid token")
-//            isLoading = false
-//            session.signOut()
-//            return
-//        }
-//        guard let _ = session.userId else {
-//            // print("Invalid userId")
-//            isLoading = false
-//            session.signOut()
-//            return
-//        }
-//                
-//        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/disconnectProbe") else {
-//            // print("Invalid URL")
-//            isLoading = false
-//            return
-//        }
-//
-//        let body: [String: String] = ["deviceId": deviceId]
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-//        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-//        
-//
-//        do {
-//            let (data, response) = try await URLSession.shared.data(for: request)
-//            
-//            guard let httpResponse = response as? HTTPURLResponse,
-//                  (200..<300).contains(httpResponse.statusCode) else {
-////                print("Server error or invalid response")
-////                if let httpResponse = response as? HTTPURLResponse {
-////                    print("Status: \(httpResponse.statusCode)")
-////                }
-////                if let jsonString = String(data: data, encoding: .utf8) {
-////                    print("Response: \(jsonString)")
-////                }
-//                isLoading = false
-//                return
-//            }
-//            
-//            if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-//               let newToken = jsonObject["newToken"] as? String {
-//                
-//                session.renewToken(token: newToken)
-//            }
-//            
-//            await MainActor.run {
-//                selectedDeviceIndex = nil
-//                devices.removeAll { $0.deviceId == deviceId }
-//                isLoading = false
-//                WidgetCenter.shared.reloadAllTimelines()
-//            }
-//            
-//        } catch {
-////            print("Failed to update device info: \(error.localizedDescription)")
-//        }
-//        
-//        isLoading = false
-//        selectedDeviceIndex = nil
-//    }
 }
 
 #Preview {
