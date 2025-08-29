@@ -21,8 +21,8 @@ struct AddDeviceView: View {
     @State private var isLoading = false
     @State private var showWifiForm = false
     @State private var currentSSID: String = ""
-    @State private var wifiName = "ATTXSkQkMQ" //ATTXSkQkMQ My_Home_Wi-Fi_Name
-    @State private var wifiPassword = "nfwtdsd#i#=7" //nfwtdsd#i#=7
+    @State private var wifiName = "" //ATTXSkQkMQ My_Home_Wi-Fi_Name
+    @State private var wifiPassword = "" //nfwtdsd#i#=7
     @State private var deviceId: String = ""
     @State private var deviceToken: String = ""
     @State private var deviceHVersion: String = ""
@@ -382,16 +382,13 @@ struct AddDeviceView: View {
             withAnimation {
                 statusMessage = "Having an issue connecting to your probe..."
             }
-//            print( "Not connected to Probe Wi-Fi")
             return
         }
         guard let jwtToken = session.token else {
-//            print( "Invalid token")
             session.signOut()
             return
         }
         guard let _ = session.userId else {
-//            print( "Invalid userId")
             session.signOut()
             return
         }
@@ -403,37 +400,91 @@ struct AddDeviceView: View {
             }
             return
         }
-        guard let url = URL(string: "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/default/addProbe") else {
-//            print( "Invalid url")
-            return
-        }
-
-        let body: [String: Any] = [
-            "deviceId": deviceId,
-            "hardwareVersion": deviceHVersion,
-            "firmwareVersion": deviceFVersion
-        ]
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
+        
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let results = try await APIManager.shared.request(
+                endpoint: .addProbe,
+                method: "POST",
+                payload: [
+                    "deviceId": deviceId,
+                    "hardwareVersion": deviceHVersion,
+                    "firmwareVersion": deviceFVersion
+                ],
+                token: jwtToken
+            )
             
-            if let httpResponse = response as? HTTPURLResponse {
-//                print(httpResponse.statusCode)
-                if httpResponse.statusCode == 410 {
-//                    print("Account deleted (410 Gone)")
-                    DispatchQueue.main.async { session.signOut() }
+            if case let .addProbe(res) = results {  // results has Error
+                if let _ = res["error"] {
+                    withAnimation {
+                        statusMessage = "Syncing seems to have run into an issue..."
+                    }
                     return
+                } else if let deviceToken = res["deviceToken"] {  // results has deviceToken
+                    self.deviceToken = deviceToken as! String
+                    
+                    if self.deviceToken != "" {
+                        statusMessage = ""
+                        withAnimation {
+                            statusStep = "2"
+                        }
+                        showWifiForm = true
+                    } else {
+                        withAnimation {
+                            statusMessage = "Registration seems to have run into an issue..."
+                        }
+                    }
+                } else {
+                    withAnimation {
+                        statusMessage = "Registration seems to have run into an issue..."
+                    }
                 }
             }
+            
+//            results.Success
+//            if let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+//
+//                if let deviceToken = result["deviceToken"] as? String {
+//                    self.deviceToken = deviceToken
+//                }
+//
+//                if self.deviceToken != "" {
+//                    statusMessage = ""
+//                    withAnimation {
+//                        statusStep = "2"
+//                    }
+//                    showWifiForm = true
+//                } else {
+//                    withAnimation {
+//                        statusMessage = "Registration seems to have run into an issue..."
+//                    }
+//                }
+//
+//            } else {
+//                withAnimation {
+//                    statusMessage = "Registration seems to have run into an issue..."
+//                }
+//            }
+            
+            
+        } catch {
+            print("Error:", error)
+            
+            withAnimation {
+                statusMessage = "Registeration seems to have run into an issue..."
+            }
+        }
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.setValue("Bearer \(jwtToken)", forHTTPHeaderField: "Authorization")
+//        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+//
+//        do {
+//            let (data, response) = try await URLSession.shared.data(for: request)
+//
+//            guard let httpResponse = response as? HTTPURLResponse,
+//                  (200..<300).contains(httpResponse.statusCode) else {
 //                print("Server error or invalid response")
 //                if let httpResponse = response as? HTTPURLResponse {
 //                    print("Status: \(httpResponse.statusCode)")
@@ -441,45 +492,46 @@ struct AddDeviceView: View {
 //                if let jsonString = String(data: data, encoding: .utf8) {
 //                    print("Response: \(jsonString)")
 //                }
-                withAnimation {
-                    statusMessage = "Syncing seems to have run into an issue..."
-                }
-                return
-            }
-
-            if let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                
-                if let newToken = result["newToken"] as? String {
-                    session.renewToken(token: newToken)
-                } else if let deviceToken = result["deviceToken"] as? String {
-                    self.deviceToken = deviceToken
-                }
-
-                if self.deviceToken != "" {
-                    statusMessage = ""
-                    withAnimation {
-                        statusStep = "2"
-                    }
-                    showWifiForm = true
-                } else {
-                    withAnimation {
-                        statusMessage = "Registration seems to have run into an issue..."
-                    }
-                }
-                
-            } else {
-                withAnimation {
-                    statusMessage = "Registration seems to have run into an issue..."
-                }
-            }
-
-
-        } catch {
-//            print("Request failed: \(error.localizedDescription)")
-            withAnimation {
-                statusMessage = "Registeration seems to have run into an issue..."
-            }
-        }
+//
+//                withAnimation {
+//                    statusMessage = "Syncing seems to have run into an issue..."
+//                }
+//                return
+//            }
+//
+//            if let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+//
+//                if let newToken = result["newToken"] as? String {
+//                    session.renewToken(token: newToken)
+//                } else if let deviceToken = result["deviceToken"] as? String {
+//                    self.deviceToken = deviceToken
+//                }
+//
+//                if self.deviceToken != "" {
+//                    statusMessage = ""
+//                    withAnimation {
+//                        statusStep = "2"
+//                    }
+//                    showWifiForm = true
+//                } else {
+//                    withAnimation {
+//                        statusMessage = "Registration seems to have run into an issue..."
+//                    }
+//                }
+//
+//            } else {
+//                withAnimation {
+//                    statusMessage = "Registration seems to have run into an issue..."
+//                }
+//            }
+//
+//
+//        } catch {
+////            print("Request failed: \(error.localizedDescription)")
+//            withAnimation {
+//                statusMessage = "Registeration seems to have run into an issue..."
+//            }
+//        }
     }
 
     func sendCredentialsToESP() async {
@@ -487,16 +539,13 @@ struct AddDeviceView: View {
             withAnimation {
                 statusMessage = "Having an issue connecting to your probe..."
             }
-//            print( "Not connected to Probe Wi-Fi")
             return
         }
         guard let userId = session.userId else {
-//            print( "Invalid userId")
             session.signOut()
             return
         }
         guard let url = URL(string: "http://192.168.4.1/connect") else {
-//             print( "Invalid url")
             showWifiForm = false
             withAnimation {
                 statusMessage = "Having an issue connecting to your probe..."
@@ -504,7 +553,6 @@ struct AddDeviceView: View {
             return
         }
         guard !wifiName.isEmpty, !wifiPassword.isEmpty, !deviceToken.isEmpty else {
-//            print( "Invalid creds")
             showWifiForm = false
             withAnimation {
                 statusMessage = "Registeration seems not completed properly..."
