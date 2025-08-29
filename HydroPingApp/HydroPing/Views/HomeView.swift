@@ -15,7 +15,6 @@ struct HomeView: View {
     @State private var selectedDeviceIndex: Int? = nil
     @State private var isLoading = false
     @State private var isLoadingDeviceFetch = false
-    @State private var showHowToUse = false
     @State private var currentPage = 0
     
     let columns = [
@@ -64,9 +63,9 @@ struct HomeView: View {
                     }
                 }
                 .refreshable {
-                    //                    isLoadingDeviceFetch = true
+//                    isLoadingDeviceFetch = true
                     await fetchDevices()
-                    //                    isLoadingDeviceFetch = false
+//                    isLoadingDeviceFetch = false
                 }
                 Text("Pull to refresh")
                     .font(.subheadline)
@@ -100,31 +99,13 @@ struct HomeView: View {
                             
                             Image(systemName: "plus")
                                 .foregroundColor(.primary)
-                                .font(.system(size: 18, weight: .semibold))
+                                .font(.system(size: 16, weight: .regular))
                         }
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Link(destination: URL(string: "https://hydroping.com/pages/apple-app-widget-extension-installation-walkthrough")!) {
-                            Label("Add App Widget", systemImage: "rectangle.stack")
-                        }
-                        Button {
-                            showHowToUse = true
-                        } label: {
-                            Label("In Depth Guide", systemImage: "questionmark.circle")
-                        }
-                        Link(destination: URL(string: "https://hydroping.com/collections/all")!) {
-                            Label("Buy more Probes", systemImage: "cart")
-                        }
-                        Button(role: .destructive) {
-                            session.signOut()
-                        } label: {
-                            Label("Logout - \(session.email ?? "")", systemImage: "rectangle.portrait.and.arrow.right")
-                                .font(.caption)
-                        }
-                    } label: {
+                    NavigationLink(destination: ProfileView()) {
                         ZStack {
                             Circle()
                                 .fill(.ultraThinMaterial)
@@ -141,16 +122,12 @@ struct HomeView: View {
                                 .shadow(color: Color.white.opacity(0.2), radius: 1, x: -1, y: -1)
                                 .shadow(color: Color.black.opacity(0.1), radius: 2, x: 1, y: 1)
                             
-                            Image(systemName: "ellipsis")
-                                .font(.system(size: 16, weight: .medium))
+                            Image(systemName: "person")
                                 .foregroundColor(.primary)
+                                .font(.system(size: 16, weight: .regular))
                         }
                     }
-                    .menuStyle(.automatic)
                 }
-            }
-            .navigationDestination(isPresented: $showHowToUse) {
-                HowToUseView()
             }
         }
         .sheet(isPresented: Binding<Bool>(
@@ -189,7 +166,6 @@ struct HomeView: View {
         }
     }
     
-
     func fetchDevices() async {
         defer { isLoadingDeviceFetch = false }
                 

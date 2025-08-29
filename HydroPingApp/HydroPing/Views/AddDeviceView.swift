@@ -442,7 +442,7 @@ struct AddDeviceView: View {
             
 //            results.Success
 //            if let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-//                
+//
 //                if let deviceToken = result["deviceToken"] as? String {
 //                    self.deviceToken = deviceToken
 //                }
@@ -458,7 +458,7 @@ struct AddDeviceView: View {
 //                        statusMessage = "Registration seems to have run into an issue..."
 //                    }
 //                }
-//                
+//
 //            } else {
 //                withAnimation {
 //                    statusMessage = "Registration seems to have run into an issue..."
@@ -500,7 +500,7 @@ struct AddDeviceView: View {
 //            }
 //
 //            if let result = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-//                
+//
 //                if let newToken = result["newToken"] as? String {
 //                    session.renewToken(token: newToken)
 //                } else if let deviceToken = result["deviceToken"] as? String {
@@ -518,7 +518,7 @@ struct AddDeviceView: View {
 //                        statusMessage = "Registration seems to have run into an issue..."
 //                    }
 //                }
-//                
+//
 //            } else {
 //                withAnimation {
 //                    statusMessage = "Registration seems to have run into an issue..."
