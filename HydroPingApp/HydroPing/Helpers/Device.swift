@@ -234,15 +234,14 @@ struct DeviceInfoModal: View {
     
     var body: some View {
         let color = device.status?.color ?? .gray
-        
         VStack(spacing: 20) {
             if (device.status?.toString == "offline") {
                 VStack {
                     RoundedRectangle(cornerRadius: 2)
                         .fill(.ultraThickMaterial)
-                            .frame(width: 40, height: 5)
-                            .padding(.top, 20)
-                            .zIndex(1)
+                        .frame(width: 40, height: 5)
+                        .padding(.top, 20)
+                        .zIndex(1)
                     
                     Spacer()
                     
@@ -258,6 +257,7 @@ struct DeviceInfoModal: View {
                     
                     Text("This probe is disconnected.")
                         .font(.subheadline)
+                    
                     
                     Spacer()
                 }
@@ -288,7 +288,7 @@ struct DeviceInfoModal: View {
                                                     .font(.callout)
                                                     .foregroundStyle(Color(hex: "#666"))
                                                     .padding(.bottom, 2)
-
+                                                
                                                 Text(device.status!.description)
                                                     .font(.title2)
                                                     .fontWeight(.semibold)
@@ -297,7 +297,7 @@ struct DeviceInfoModal: View {
                                                 Text("Soil Feels")
                                                     .font(.callout)
                                                     .foregroundStyle(Color(hex: "#666"))
-
+                                                
                                                 Text(device.status!.description)
                                                     .font(.largeTitle)
                                                     .fontWeight(.bold)
@@ -308,7 +308,7 @@ struct DeviceInfoModal: View {
                                                 .font(.callout)
                                                 .foregroundStyle(Color(hex: "#666"))
                                                 .padding(.bottom, 2)
-
+                                            
                                             Text("Not Available")
                                                 .font(.title2)
                                                 .fontWeight(.semibold)
@@ -377,7 +377,7 @@ struct DeviceInfoModal: View {
                                                             }
                                                         }
                                                     }
-
+                                                    
                                                     Text("Today")
                                                         .font(.largeTitle)
                                                         .fontWeight(.bold)
@@ -800,9 +800,9 @@ struct DeviceInfoModal: View {
                     
                     RoundedRectangle(cornerRadius: 2)
                         .fill(.ultraThickMaterial)
-                            .frame(width: 40, height: 5)
-                            .padding(.top, 20)
-                            .zIndex(1)
+                        .frame(width: 40, height: 5)
+                        .padding(.top, 20)
+                        .zIndex(1)
                 } //ZStack
             }
         }
