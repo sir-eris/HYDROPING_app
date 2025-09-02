@@ -9,8 +9,11 @@ import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject var session: SessionManager
-//    @State private var devices: [Device] = sampleDevices
+    #if DEBUG
+    @State private var devices: [Device] = sampleDevices
+    #else
     @State private var devices: [Device] = []
+    #endif
     @State private var selectedDevice: Device?
     @State private var selectedDeviceIndex: Int? = nil
     @State private var isLoading = false

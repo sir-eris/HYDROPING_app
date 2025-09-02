@@ -22,14 +22,34 @@ struct Device: Identifiable, Codable {
     let firmwareVersion: String?
     var notitificationEnabled: Bool?
     let moistureHistory: [MoistureReading]
+    let thresholds: [HistoryChartThreshold]?
     let nextWaterTime: String?
     
+    // Computed property that returns latest reading or 0.0
     var firstMoistureValue: Double {
         if let first = moistureHistory.first {
             return status?.toString != "offline" ? Double(first.moisture) : 0.0
         }
         return 0.0
     }
+    
+    // Computed property that always gives you something
+    var effectiveThresholds: [HistoryChartThreshold] {
+        if let t = thresholds, !t.isEmpty {
+            return t
+        } else {
+            return Device.defaultThresholds
+        }
+    }
+        
+    // Default preset thresholds
+    static let defaultThresholds: [HistoryChartThreshold] = [
+        HistoryChartThreshold(value: 0, label: "Dry"),
+        HistoryChartThreshold(value: 150000, label: "Low"),
+        HistoryChartThreshold(value: 300000, label: "Ideal"),
+        HistoryChartThreshold(value: 450000, label: "High"),
+        HistoryChartThreshold(value: 600000, label: "Wet")
+    ]
     
     // Convenience method to update fields dynamically
     mutating func update(field: String, value: Any) {
@@ -454,21 +474,13 @@ struct DeviceInfoModal: View {
                             }
                             .multilineTextAlignment(.center)
                             
-                            //
-                            //                        VStack(alignment: .leading) {
-                            //                            HStack {
-                            //                                AnimatedPulsingCircle(deviceStatus: device.status?.toString, color: device.status?.color ?? .gray)
-                            //                                Text("\(device.status?.description ?? "Not available") - \( device.status?.longDescription ?? "Not available")").fixedSize(horizontal: false, vertical: true)
-                            //                            }
-                            //                        }
-                            
                             Spacer()
                             
                             VStack(alignment: .leading) {
                                 Text("Moisture History")
                                     .font(.callout)
                                     .foregroundStyle(Color(hex: "#666"))
-                                HistoryChart(readings: device.moistureHistory, deviceStatus: device.status ?? .offline)
+                                HistoryChart(r/*eadings: device.moistureHistory, threasholds: device.effectiveThresholds, deviceStatus: device.status ?? .offline)*/
                             }
                             .padding(.bottom, 18)
                             
@@ -813,10 +825,18 @@ struct DeviceInfoModal: View {
     }
 }
 
+struct HistoryChartThreshold: Identifiable, Codable {
+    let id = UUID()
+    let value: Int
+    let label: String
+}
+
 struct HistoryChart: View {
     let readings: [MoistureReading]
+    let thresholds: [HistoryChartThreshold]
     let deviceStatus: DeviceStatus?
     
+    // live tracker
     let duration: Double = 6
     let pulseCount = 2
     
@@ -919,26 +939,39 @@ struct HistoryChart: View {
                     }
                 }
             }
-            .chartYScale(domain: 0...600000)
+//            .chartYScale(domain: 0...600000)
             .chartYAxis {
-                AxisMarks(values: [0, 150000, 300000, 450000, 600000]) { value in
+                AxisMarks(values: thresholds.map { $0.value }) { value in
                     AxisGridLine()
                     AxisValueLabel {
-                        if let val = value.as(Int.self) {
-                            Text({
-                                switch val {
-                                case 0: "Dry"
-                                case 150000: "Low"
-                                case 300000: "Ideal"
-                                case 450000: "High"
-                                default: "Wet"
-                                }
-                            }())
-                            .offset(x: 4)
+                        if let val = value.as(Int.self),
+                           let threshold = thresholds.first(where: { $0.value == val }) {
+                            Text(threshold.label)
+                                .offset(x: 4)
                         }
                     }
                 }
             }
+
+//            .chartYAxis {
+//                AxisMarks(values: [0, 150000, 300000, 450000, 600000]) { value in
+//                    AxisGridLine()
+//                    AxisValueLabel {
+//                        if let val = value.as(Int.self) {
+//                            Text({
+//                                switch val {
+//                                case 0: "Dry"
+//                                case 150000: "Low"
+//                                case 300000: "Ideal"
+//                                case 450000: "High"
+//                                default: "Wet"
+//                                }
+//                            }())
+//                            .offset(x: 4)
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -980,6 +1013,14 @@ let sampleDevices: [Device] = (1...7).map { i in
         )
     }
     
+    let defaultThresholds: [HistoryChartThreshold] = [
+        HistoryChartThreshold(value: 0, label: "Dry"),
+        HistoryChartThreshold(value: 150000, label: "Low"),
+        HistoryChartThreshold(value: 300000, label: "Ideal"),
+        HistoryChartThreshold(value: 450000, label: "High"),
+        HistoryChartThreshold(value: 600000, label: "Wet")
+    ]
+    
     return Device(
         deviceId: "B4:3A:45:34:BD:\(String(format: "%02X", i))",
         name: name,
@@ -992,6 +1033,7 @@ let sampleDevices: [Device] = (1...7).map { i in
         firmwareVersion: "2.1.\(i)",
         notitificationEnabled: Bool.random(),
         moistureHistory: moistureHistory,
+        thresholds: defaultThresholds,
         nextWaterTime: "3",
     )
 }
