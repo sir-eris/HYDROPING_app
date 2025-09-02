@@ -4,11 +4,13 @@
 
 **Project Overview**
 ---
-- LOC: 4,636
+- LOC: 4,636<sup>*</sup>
 - Team: 1
 - Timeline: 2mo
 - Language: Swift
 - Main Packages: Google Firebase
+
+<sup>*</sup>Count excludes contents of .gitignore and other irrelevant files and directories.
 
 **What's HydroPing**
 ---
