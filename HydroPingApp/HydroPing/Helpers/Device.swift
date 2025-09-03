@@ -10,7 +10,10 @@ import Charts
 
 
 struct Device: Identifiable, Codable {
+    // Computed property
     var id: String { deviceId }
+    
+    // Stored properties
     let deviceId: String
     var name: String?
     var location: String?
@@ -32,24 +35,6 @@ struct Device: Identifiable, Codable {
         }
         return 0.0
     }
-    
-    // Computed property that always gives you something
-    var effectiveThresholds: [HistoryChartThreshold] {
-        if let t = thresholds, !t.isEmpty {
-            return t
-        } else {
-            return Device.defaultThresholds
-        }
-    }
-        
-    // Default preset thresholds
-    static let defaultThresholds: [HistoryChartThreshold] = [
-        HistoryChartThreshold(value: 0, label: "Dry"),
-        HistoryChartThreshold(value: 150000, label: "Low"),
-        HistoryChartThreshold(value: 300000, label: "Ideal"),
-        HistoryChartThreshold(value: 450000, label: "High"),
-        HistoryChartThreshold(value: 600000, label: "Wet")
-    ]
     
     // Convenience method to update fields dynamically
     mutating func update(field: String, value: Any) {
@@ -480,7 +465,11 @@ struct DeviceInfoModal: View {
                                 Text("Moisture History")
                                     .font(.callout)
                                     .foregroundStyle(Color(hex: "#666"))
-                                HistoryChart(r/*eadings: device.moistureHistory, threasholds: device.effectiveThresholds, deviceStatus: device.status ?? .offline)*/
+                                HistoryChart(
+                                    readings: device.moistureHistory,
+                                    thresholds: device.thresholds,
+                                    deviceStatus: device.status ?? .offline
+                                )
                             }
                             .padding(.bottom, 18)
                             
@@ -826,10 +815,11 @@ struct DeviceInfoModal: View {
 }
 
 struct HistoryChartThreshold: Identifiable, Codable {
-    let id = UUID()
+    let id: Int  // stored once
     let value: Int
     let label: String
 }
+
 
 struct HistoryChart: View {
     let readings: [MoistureReading]
@@ -868,7 +858,8 @@ struct HistoryChart: View {
             .cornerRadius(25)
         } else {
             Chart(readings) { reading in
-                let cappedMoisture = min(reading.moisture, 600000)
+                let maxThreshold = thresholds.last?.value ?? 600000
+                let cappedMoisture = min(reading.moisture, maxThreshold)
                 
                 LineMark(
                     x: .value("Time", reading.timestamp),
@@ -939,8 +930,8 @@ struct HistoryChart: View {
                     }
                 }
             }
-//            .chartYScale(domain: 0...600000)
-            .chartYAxis {
+//            .chartYScale(domain: 0...600000) // set static max chart limit
+            .chartYAxis { // Dynamically set the chart threasholds
                 AxisMarks(values: thresholds.map { $0.value }) { value in
                     AxisGridLine()
                     AxisValueLabel {
@@ -952,33 +943,13 @@ struct HistoryChart: View {
                     }
                 }
             }
-
-//            .chartYAxis {
-//                AxisMarks(values: [0, 150000, 300000, 450000, 600000]) { value in
-//                    AxisGridLine()
-//                    AxisValueLabel {
-//                        if let val = value.as(Int.self) {
-//                            Text({
-//                                switch val {
-//                                case 0: "Dry"
-//                                case 150000: "Low"
-//                                case 300000: "Ideal"
-//                                case 450000: "High"
-//                                default: "Wet"
-//                                }
-//                            }())
-//                            .offset(x: 4)
-//                        }
-//                    }
-//                }
-//            }
         }
     }
 }
 
 
 let sampleDevices: [Device] = (1...7).map { i in
-    let name = ["Leaf Fig", "Monstera", "Snake Plant", "Peace Lily", "ZZ", "Bird of Paradise", "Dracaena", "Corn Plant", "Ficus", "Heartleaf"][i - 1]
+    let name = ["Leaf Fig", "Monstera", "Snake Plant", "Peace Lily", "ZZ", "Bird of Paradise", "Dracaena", "Corn Plant", "Ficus", "Heartleaf"][Int(i) - 1]
     let location = ["Kitchen", "Living Room", "Balcony", "Bedroom", "Bathroom", "Office", "Basement"].randomElement()!
     let potSize = [">16", "12–16", "9–12", "6-8"].randomElement()!
     let lighting = ["Full Sun", "Partial Sun", "Shade"].randomElement()!
@@ -1014,11 +985,11 @@ let sampleDevices: [Device] = (1...7).map { i in
     }
     
     let defaultThresholds: [HistoryChartThreshold] = [
-        HistoryChartThreshold(value: 0, label: "Dry"),
-        HistoryChartThreshold(value: 150000, label: "Low"),
-        HistoryChartThreshold(value: 300000, label: "Ideal"),
-        HistoryChartThreshold(value: 450000, label: "High"),
-        HistoryChartThreshold(value: 600000, label: "Wet")
+        HistoryChartThreshold(id: 0, value: 0, label: "Dry"),
+        HistoryChartThreshold(id: 1, value: 150000, label: "Low"),
+        HistoryChartThreshold(id: 2, value: 300000, label: "Ideal"),
+        HistoryChartThreshold(id: 3, value: 450000, label: "High"),
+        HistoryChartThreshold(id: 4, value: 500000, label: "Wet")
     ]
     
     return Device(

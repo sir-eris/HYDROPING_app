@@ -18,9 +18,9 @@ enum Endpoint: String {
 
 enum APIResult {
     case fetchDevices([Device])
-    case updateDevice // // nothing to return
+    case updateDevice // nothing to return
     case addProbe([String: Any])
-    case submitReport // // nothing to return
+    case submitReport // nothing to return
 }
 
 enum APIError: Error {
@@ -40,12 +40,7 @@ class APIManager {
     
     private init() {
         // Could also be loaded from a .plist or Config file
-        #if DEBUG
         baseURL = "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/" + baseAPIStage + "/"
-        #else
-        baseURL = "https://q15ur4emu9.execute-api.us-east-2.amazonaws.com/" + baseAPIStage + "/"
-        #endif
-        
         session = URLSession.shared
     }
     
@@ -124,7 +119,7 @@ class APIManager {
             return .updateDevice
             
         case .addProbe:
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, _) = try await URLSession.shared.data(for: request)
             
             if let jsonObject = try? JSONSerialization.jsonObject(with: data),
                let dict = jsonObject as? [String: Any],

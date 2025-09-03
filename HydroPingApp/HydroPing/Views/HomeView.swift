@@ -9,11 +9,8 @@ import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject var session: SessionManager
-    #if DEBUG
-    @State private var devices: [Device] = sampleDevices
-    #else
+//    @State private var devices: [Device] = sampleDevices
     @State private var devices: [Device] = []
-    #endif
     @State private var selectedDevice: Device?
     @State private var selectedDeviceIndex: Int? = nil
     @State private var isLoading = false
@@ -186,9 +183,10 @@ struct HomeView: View {
             let results = try await APIManager.shared.request(
                 endpoint: .fetchDevices,
                 method: "POST",
-                token: jwtToken
+                token: jwtToken,
+                debug: true
             )
-            
+                        
             if case let .fetchDevices(deviceList) = results {
                 await MainActor.run {
                     devices = deviceList
