@@ -116,6 +116,7 @@ struct DeviceCard: View {
 
     var body: some View {
         let color = device.status?.color ?? .gray
+        let maxMoisture = 100
         
         VStack {
             HStack {
@@ -140,7 +141,7 @@ struct DeviceCard: View {
                     }
                     
                     if (device.status?.toString != "offline") {
-                        MoistureBar(moisture: device.firstMoistureValue, maxMoisture: 600_000, statusColor: color)
+                        MoistureBar(moisture: device.firstMoistureValue, maxMoisture: maxMoisture, statusColor: color)
                         
                         HStack {
                             Text(device.location?.isEmpty == false ? device.location! : "Tab to setup")
@@ -263,6 +264,7 @@ struct DeviceInfoModal: View {
                     Text("This probe is disconnected.")
                         .font(.subheadline)
                     
+//                    DeviceReconnectLink() // only app target sees this
                     
                     Spacer()
                 }
@@ -467,11 +469,11 @@ struct DeviceInfoModal: View {
                                     .foregroundStyle(Color(hex: "#666"))
                                 HistoryChart(
                                     readings: device.moistureHistory,
-                                    thresholds: device.thresholds,
-                                    deviceStatus: device.status ?? .offline
+                                    thresholds: device.thresholds!,
+                                    deviceStatus: device.status
                                 )
                             }
-                            .padding(.bottom, 18)
+                            .padding(.bottom, 25)
                             
                             VStack(alignment: .leading) {
                                 Text("Pot Size (inch)")
@@ -858,12 +860,9 @@ struct HistoryChart: View {
             .cornerRadius(25)
         } else {
             Chart(readings) { reading in
-                let maxThreshold = thresholds.last?.value ?? 600000
-                let cappedMoisture = min(reading.moisture, maxThreshold)
-                
                 LineMark(
                     x: .value("Time", reading.timestamp),
-                    y: .value("Moisture", cappedMoisture)
+                    y: .value("Moisture", reading.moisture)
                 )
                 .interpolationMethod(.monotone)
                 .symbol(Circle())
@@ -871,7 +870,7 @@ struct HistoryChart: View {
                 
                 AreaMark(
                     x: .value("Time", reading.timestamp),
-                    y: .value("Moisture", cappedMoisture)
+                    y: .value("Moisture", reading.moisture)
                 )
                 .interpolationMethod(.monotone)
                 .foregroundStyle(
@@ -884,7 +883,7 @@ struct HistoryChart: View {
                 
                 PointMark(
                     x: .value("Time", reading.timestamp),
-                    y: .value("Moisture", cappedMoisture)
+                    y: .value("Moisture", reading.moisture)
                 )
                 .symbol {
                     Circle()
@@ -930,7 +929,7 @@ struct HistoryChart: View {
                     }
                 }
             }
-//            .chartYScale(domain: 0...600000) // set static max chart limit
+            .chartYScale(domain: 0...thresholds.last!.value) // set max chart limit
             .chartYAxis { // Dynamically set the chart threasholds
                 AxisMarks(values: thresholds.map { $0.value }) { value in
                     AxisGridLine()
