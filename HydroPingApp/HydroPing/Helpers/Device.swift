@@ -116,7 +116,6 @@ struct DeviceCard: View {
 
     var body: some View {
         let color = device.status?.color ?? .gray
-        let maxMoisture = 100
         
         VStack {
             HStack {
@@ -141,7 +140,7 @@ struct DeviceCard: View {
                     }
                     
                     if (device.status?.toString != "offline") {
-                        MoistureBar(moisture: device.firstMoistureValue, maxMoisture: maxMoisture, statusColor: color)
+                        MoistureBar(moisture: device.firstMoistureValue, maxMoisture: 100, statusColor: color)
                         
                         HStack {
                             Text(device.location?.isEmpty == false ? device.location! : "Tab to setup")
@@ -174,7 +173,7 @@ struct MoistureBar: View {
     let statusColor: Color
 
     var body: some View {
-        let controlledMoisture = min(max(moisture, 50_000), 600_000)
+        let controlledMoisture = min(max(moisture, 5), maxMoisture)
         
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
